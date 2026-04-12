@@ -9,16 +9,37 @@ public class Server {
         this.serverSocket = serverSocket;
     }
 
+    public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(9999);
+
+        Server server = new Server(serverSocket);
+
+        server.startServer();
+    }
+
     public void startServer(){
         try{
             while (!serverSocket.isClosed()){
                Socket clientSocket = serverSocket.accept();
                 System.out.println("A new client has connected.");
-                //ClientHandler clienthandler = new ClientHandler(clientSocket);
+                ClientHandler clientHandler = new ClientHandler(clientSocket);
+
+                Thread thread = new Thread(clientHandler);
+                thread.start();
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            closeServer();
+        }
+    }
+
+    public void closeServer(){
+        try{
+            if (this.serverSocket != null){
+                this.serverSocket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
