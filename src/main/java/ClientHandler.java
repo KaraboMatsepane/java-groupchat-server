@@ -16,14 +16,13 @@ public class ClientHandler implements Runnable {
             this.bReader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
             this.bWriter = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream()));
             this.clientUsername = bReader.readLine();
-            clientHandlers .add(this);
+            clientHandlers.add(this);
             broadcastMessage("SERVER: " + this.clientUsername + " has entered the chat!");
         } catch (IOException e){
             closeEverything(this.socket, this.bReader, this.bWriter);
         }
 
     }
-
 
     @Override
     public void run(){
