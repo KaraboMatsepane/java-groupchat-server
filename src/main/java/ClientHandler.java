@@ -31,7 +31,15 @@ public class ClientHandler implements Runnable {
         while (this.socket.isConnected()){
             try{
                 messageFromClient = bReader.readLine();
+                if (messageFromClient != null) {
+                    broadcastMessage(messageFromClient);
+                } else {
+                    // client disconnected
+                    removeClientHandler();
+                    break;
+                }
             }catch (IOException e){
+                removeClientHandler();
                 closeEverything(this.socket, this.bReader, bWriter);
                 break;
             }

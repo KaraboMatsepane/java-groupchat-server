@@ -28,8 +28,8 @@ public class Client {
         Socket socket = new Socket(InetAddress.getLocalHost(), 9999);
         Client client = new Client(socket,  username);
 
-        client.sendMessage();
         client.listenForMessage();
+        client.sendMessage();
     }
 
     public void sendMessage(){
@@ -42,7 +42,7 @@ public class Client {
             while(this.sock.isConnected()) {
                 String messageToSend = scanner.nextLine();
 
-                this.bWriter.write(messageToSend);
+                this.bWriter.write(this.userName + ": " + messageToSend);
                 this.bWriter.newLine();
                 this.bWriter.flush();
             }
